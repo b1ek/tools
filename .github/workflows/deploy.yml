@@ -3,13 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "src/**.md"
-      - "static/**"
-      - "templates/**"
-      - "sass/**"
-      - "config.toml"
-      - ".github/workflows/deploy.yml"
 
 jobs:
   build:
