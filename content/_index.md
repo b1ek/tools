@@ -2,7 +2,7 @@
 +++
 
 # tools era
-this is now a website with silly little tools
+this is now a website with silly little tools:
 
 - [password entropy calculator](/password-entropy-calc)
 - [bcrypt calculator](/bcrypt)
