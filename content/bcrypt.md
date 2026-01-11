@@ -1,0 +1,100 @@
++++
++++
+
+# bcrypt calculator
+
+<div class='card' style='background:#dc525f29'>
+    <h3>review page source before using</h3>
+</div>
+
+<noscript>this needs js because nothing leaves your browser</noscript>
+<div class='card'>
+    <input type=password id='password' placeholder='password'>
+    <input type=text id='iterations' placeholder='iterations' value=14>
+    <input type=text id='hash' placeholder='hash'>
+    <div style='display:flex;flex-direction:row;justify-content:stretch;width:100%;gap:1em'>
+        <button id='calculate' style='color:#00ff80ff;font-weight:bold' data-locked='CALCULATING...' data-unlocked='CALCULATE'>CALCULATE</button>
+        <button id='verify' style='color:#00ff80ff;font-weight:bold' data-locked='VERIFYING...' data-unlocked='VERIFY'>VERIFY</button>
+    </div>
+    <label>
+        show password
+        <input type=checkbox id=showpass>
+    </label>
+</div>
+
+
+<script src='/bcrypt.3.0.3.js'>
+</script>   
+<script>
+    (() => {
+        const password = document.getElementById('password');
+        const iterations = document.getElementById('iterations');
+        const hash = document.getElementById('hash');
+        const showpass = document.getElementById('showpass');
+        const calculate = document.getElementById('calculate');
+        const verify = document.getElementById('verify');
+
+        const delay = (t) => new Promise(r => setTimeout(t, r));
+
+        let isLock = false;
+
+        function lock(element = calculate) {
+            isLock = true;
+            element.disabled = true;
+            element.innerText = element.dataset.locked ?? 'CALCULATING...';
+        }
+        function unlock(element = calculate) {
+            isLock = false;
+            element.disabled = false;
+            element.innerText = element.dataset.unlocked ?? 'CALCULATE';
+        }
+
+        async function calc() {
+            if (isLock) return;
+            lock(calculate);
+
+            async function inner() {
+                const i = parseInt(iterations.value);
+                if (
+                    Number.isNaN(i)
+                    || i === 0
+                ) {
+                    return;
+                }
+
+                const result = await bcrypt.hash(password.value, i);
+                hash.value = result;
+            }
+
+            try {
+                await inner()
+                unlock(calculate)
+            } catch (err) {
+                unlock(calculate)
+                throw err;
+            }
+        }
+        calculate.onclick = calc;
+
+        async function compare() {
+            if (isLock) return;
+            lock(verify);
+
+            async function inner() {
+                const result = await bcrypt.compare(password.value, hash.value);
+                verify.dataset.unlocked = result ? 'MATCH' : 'UNMATCH';
+            }
+
+            try {
+                await inner()
+                unlock(verify);
+            } catch (err) {
+                unlock(verify);
+                throw err;
+            }
+        }
+        verify.onclick = compare;
+
+        showpass.oninput = _ => password.type = showpass.checked ? 'text' : 'password';
+    })()
+</script>

@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <title>tools</title>
+        <style>
+            html, body {
+                background: url(/bg.png) #222222;
+                color: lightgray;
+                margin: 0; padding: 0;
+            }
+            .main {
+                margin: 0 auto;
+                width: 900px;
+                height: 100vh;
+            }
+            .main .nav {
+                margin-bottom: 1em;
+                padding: 1em;
+                border-bottom: 2px solid #444;
+                font-size: 70%;
+
+                display: flex;
+                align-items: start;
+            }
+            .main .nav * {
+                margin: 0; padding: 0;
+            }
+            .main .nav h1 a {
+                color: lightgray;
+            }
+            .main .footer {
+                position: absolute;
+                bottom: 0;
+                margin: 1em;
+                opacity: 0.3;
+            }
+            a {
+                color: royalblue;
+                text-decoration: none;
+            }
+            a:focus {
+                outline: 0;
+                color: rgb(84, 200, 153);
+                text-decoration: underline;
+            }
+            a:visited {
+                color: palevioletred;
+            }
+            .card {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+                border: 1px solid #4442;
+                padding: 1em;
+                background: #ffffff05;
+            }
+            .card * {
+                margin: 0; padding: 0;
+            }
+            input[type=text], input[type=password], button {
+                background: #333;
+                border: 1px solid #444;
+                padding: 0.5em 1em !important;
+                border-radius: 3px;
+                color: lightgray;
+                outline: none;
+                width: 100%;
+                display: block;
+            }
+            button {
+                cursor: pointer
+            }
+        </style>
+    </head>
+    <body>
+        <div class='main'>
+            <div class='nav'>
+                <h1><a href='/'>blek.codes</a></h1>
+            </div>
+            {{ page.content | safe }}
+
+            <small class="footer">designed in farun | assembled in china | <a href='/contact'>contact</a></small>
+        </div>
+    </body>
+</html>
