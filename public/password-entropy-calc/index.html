@@ -1,0 +1,214 @@
+<html>
+    <head>
+        <title>tools</title>
+        <style>
+            html, body {
+                background: url(/bg.png) #222222;
+                color: lightgray;
+                margin: 0; padding: 0;
+            }
+            .main {
+                margin: 0 auto;
+                width: 900px;
+                height: 100vh;
+            }
+            .main .nav {
+                margin-bottom: 1em;
+                padding: 1em;
+                border-bottom: 2px solid #444;
+                font-size: 70%;
+
+                display: flex;
+                align-items: start;
+            }
+            .main .nav * {
+                margin: 0; padding: 0;
+            }
+            .main .nav h1 a {
+                color: lightgray;
+            }
+            .main .footer {
+                position: absolute;
+                bottom: 0;
+                margin: 1em;
+                opacity: 0.3;
+            }
+            a {
+                color: royalblue;
+                text-decoration: none;
+            }
+            a:focus {
+                outline: 0;
+                color: rgb(84, 200, 153);
+                text-decoration: underline;
+            }
+            a:visited {
+                color: palevioletred;
+            }
+            .card {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+                border: 1px solid #4442;
+                padding: 1em;
+                background: #ffffff05;
+            }
+            .card * {
+                margin: 0; padding: 0;
+            }
+            input[type=text], input[type=password], button {
+                background: #333;
+                border: 1px solid #444;
+                padding: 0.5em 1em !important;
+                border-radius: 3px;
+                color: lightgray;
+                outline: none;
+                width: 100%;
+                display: block;
+            }
+            button {
+                cursor: pointer
+            }
+        </style>
+    </head>
+    <body>
+        <div class='main'>
+            <div class='nav'>
+                <h1><a href='/'>blek.codes</a></h1>
+            </div>
+            <h1 id="password-entropy-calculator">password entropy calculator</h1>
+<p><noscript>this needs js because nothing leaves your browser</noscript></p>
+<div class='card'>
+    <input type=text id='length' placeholder='length'>
+    <input type=text id='size' placeholder='size'>
+    <div style='display:flex;flex-direction:row;justify-content:stretch;width:100%;gap:1em'>
+        <input type=text id='bits' value='0 bits' readonly>
+        <input type=text id='possible' value='0 variations' readonly>
+        <input type=text id='quality' value='UNKNOWN quality' readonly>
+    </div>
+    <p style='display:flex;flex-direction:row;gap:0.5em'>
+        threat model:
+        <label>
+            <input type='radio' name='threat' value='lax'>
+            lax
+        </label>
+        <label>
+            <input type='radio' name='threat' value='normal' checked>
+            normal
+        </label>
+        <label>
+            <input type='radio' name='threat' value='strict'>
+            strict
+        </label>
+    </p>
+</div>
+<p>common sizes:</p>
+<ul>
+<li>a-z = 26</li>
+<li>0-9 = 10</li>
+<li>a-Z0-9 = 62</li>
+<li>emojis = 3953</li>
+<li>eff diceware = 7776</li>
+<li>~90% english words = 466550 <a href='https://github.com/dwyl/english-words'>ref</a></li>
+<li>a lot of passphrases = 25958122 <a href='https://github.com/initstring/passphrase-wordlist'>ref</a></li>
+</ul>
+<script>
+    (() => {
+        const length = document.getElementById('length');
+        const size = document.getElementById('size');
+        const bits = document.getElementById('bits');
+        const possible = document.getElementById('possible');
+        const quality = document.getElementById('quality');
+
+        function rate(bits) {
+            const threat = document.querySelector('input[name="threat"]:checked').value;
+
+            let ok = 80;
+            let good = 100;
+            let awesome = 140;
+
+            if (threat == 'lax') {
+                ok = 50;
+                good = 60;
+                awesome = 70;
+            }
+            if (threat == 'strict') {
+                ok = 140;
+                good = 160;
+                awesome = 200;
+            }
+
+            let rating = 'POOR';
+            if (bits <= 30) {
+                rating = 'UNACCEPTABLE';
+            }
+            if (bits >= ok) {
+                rating = 'OK';
+            }
+            if (bits >= good) {
+                rating = 'GOOD';
+            }
+            if (bits >= awesome) {
+                rating = 'AWESOME';
+            }
+            if (bits >= 256) {
+                rating = 'ACCEPTABLE';
+            }
+            return rating;
+        }
+
+        function update() {
+            const l = parseInt(length.value);
+            const s = parseInt(size.value);
+
+            if (
+                Number.isNaN(l) || l == 0
+                || Number.isNaN(s) || s == 0
+            ) {
+                bits.value = '0 bits';
+                possible.value = '0 variations';
+            } else {
+                const p = Math.pow(s, l);
+                const b = Math.log2(p);
+                const r = rate(b);
+                possible.value = `${p} variations`;
+                bits.value = `${b} bits`;
+                quality.value = `${r} quality`;
+
+
+                quality.style.fontWeight = null;
+                if (r == 'UNACCEPTABLE') {
+                    quality.style.color = 'black';
+                    quality.style.fontWeight = 'bold';
+                }
+                if (r == 'POOR') {
+                    quality.style.color = '#f94b6a';
+                }
+                if (r == 'OK') {
+                    quality.style.color = '#ff8300';
+                }
+                if (r == 'GOOD') {
+                    quality.style.color = '#ff9d00ff';
+                }
+                if (r == 'AWESOME') {
+                    quality.style.color = '#ffd900ff';
+                }
+                if (r == 'ACCEPTABLE') {
+                    quality.style.color = '#00ff80ff';
+                    quality.style.fontWeight = 'bold';
+                }
+
+            }
+        }
+        length.oninput = update;
+        size.oninput = update;
+        document.querySelectorAll('input[name="threat"]').forEach(x => x.oninput = update)
+
+        update();
+    })()
+</script>
+
+            <small class="footer">designed in farun | assembled in china | <a href='/contact'>contact</a></small>
+        </div>
+    </body>
+</html>
