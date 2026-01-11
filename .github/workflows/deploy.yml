@@ -19,9 +19,10 @@ jobs:
         uses: taiki-e/install-action@v2
         with:
           tool: zola@0.19.1
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Build
         run: |-
-          ls
           zola build
       - name: Archive
         uses: actions/upload-artifact@v4
