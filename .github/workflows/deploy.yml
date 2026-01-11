@@ -21,6 +21,7 @@ jobs:
           tool: zola@0.19.1
       - name: Build
         run: |-
+          ls
           zola build
       - name: Archive
         uses: actions/upload-artifact@v4
