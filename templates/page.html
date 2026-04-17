@@ -4,6 +4,17 @@
         <style>
             {{ load_data(path='static/main.css') | safe }}
         </style>
+        {% if page.extra is containing("preloads") %}
+            {% for preload in page.extra.preloads %}
+                <link rel="preload" href="{{ preload }}">
+            {% endfor %}
+        {% endif %}
+
+        {% if page.extra is containing("stylesheets") %}
+            {% for stylesheet in page.extra.stylesheets %}
+                <link rel="stylesheet" href="{{ stylesheet }}">
+            {% endfor %}
+        {% endif %}
     </head>
     <body>
         <div class='main'>
@@ -14,5 +25,11 @@
 
             <small class="footer">designed in farun | assembled in china | <a href='/contact'>contact</a></small>
         </div>
+
+        {% if page.extra is containing("scripts") %}
+            {% for script in page.extra.scripts %}
+                <script src="{{ script }}"></script>
+            {% endfor %}
+        {% endif %}
     </body>
 </html>
