@@ -1,3 +1,168 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:45ea62825f9f762e04a1325191aa32375363a984a1a975f81aa2b7264855db52
-size 2777
+html, body {
+    margin-bottom: 500px
+}
+
+.demo-group-card {
+    --width: 120px;
+    border: 2px solid #ffffff06;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    --gap: 10px;
+    padding: var(--gap);
+    gap: var(--gap);
+    justify-content: center;
+    flex-wrap: wrap;
+
+    width: calc((var(--width) * 4) + (var(--gap) * 11));
+    height: fit-content;
+}
+.demo-card {
+    height: fit-content;
+    border-radius: 14px;
+
+    background: #fff1;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    flex: 0 0 calc((var(--width)/4) - (var(--gap)*2))
+}
+.demo-card-flex {
+    width: var(--width); height: 100px;
+    display: flex;
+    gap: calc(var(--gap)/2);
+    flex-wrap: wrap;
+    padding: var(--gap);
+    border-radius: 14px 14px 0 0;
+    background: #ffffff05;
+}
+.demo-card-label {
+    text-align: center;
+    padding-bottom: var(--gap)
+}
+.demo-item {
+    background: gray;
+    border-radius: 10px;
+    text-align: center;
+    background: #fff1;
+    flex: 0 0 calc((100%/3) - calc(var(--gap)/2));
+}
+.h {
+    background: #fff2;
+}
+.h2 {
+    background: #fff3;
+}
+.a {
+    background: #af81;
+}
+.b {
+    background: #af82;
+}
+.c {
+    background: #af83;
+}
+
+.f-direction {
+    justify-content: center;
+    align-items: stretch;
+    align-content: stretch;
+}
+.f-d-row {
+    flex-direction: row;
+}
+.f-d-col {
+    flex-direction: column;
+}
+.f-d-row-r {
+    flex-direction: row-reverse;
+}
+.f-d-col-r {
+    flex-direction: column-reverse;
+}
+
+.f-a-item {
+    flex-direction: row;
+}
+.f-a-item .demo-item {
+    flex: 0 0 calc((100%/3) - calc(var(--gap)/3));
+}
+.f-a-item .demo-item.a {
+    height: 10px
+}
+.f-a-item .demo-item.b {
+    height: 30px
+}
+.f-a-item .demo-item.c {
+    height: 20px
+}
+.f-a-start {
+    align-items: flex-start;
+}
+.f-a-end {
+    align-items: flex-end;
+}
+.f-a-center {
+    align-items: center;
+}
+.f-a-stretch {
+    align-items: stretch;
+}
+.f-a-stretch .demo-item {
+    height: unset !important
+}
+
+.f-j-content,
+.f-a-content {
+    flex-direction: row;
+    align-items: stretch;
+}
+.f-j-content .demo-item.a,
+.f-j-content .demo-item.c {
+    flex: 0 0 5%;
+}
+.f-j-content .demo-item.b {
+    flex: 0 0 20%;
+}
+.f-j-start {
+    justify-content: flex-start;
+}
+.f-j-end {
+    justify-content: flex-end;
+}
+.f-j-center {
+    justify-content: center;
+}
+.f-j-s-between {
+    justify-content: space-between;
+}
+.f-j-s-around {
+    justify-content: space-around;
+}
+.f-j-s-evenly {
+    justify-content: space-evenly;
+}
+
+.f-a-content .demo-item {
+    height: 10px;
+}
+
+.f-a-start {
+    align-content: flex-start;
+}
+.f-a-end {
+    align-content: flex-end;
+}
+.f-a-center {
+    align-content: center;
+}
+.f-a-stretch {
+    align-content: stretch;
+}
+.f-a-s-around {
+    align-content: space-around;
+}
+.f-a-s-evenly {
+    align-content: space-evenly;
+}
